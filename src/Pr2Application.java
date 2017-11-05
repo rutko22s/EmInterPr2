@@ -1,10 +1,13 @@
+import java.util.HashMap;
+
 import processing.core.PApplet;
 
 public class Pr2Application extends PApplet {
 
 	KinectBodyDataProvider kinectReader;
 	PersonTracker tracker = new PersonTracker();
-
+	HashMap<Long, Body> people = new HashMap<Long, Body>();
+	
 	public static float PROJECTOR_RATIO = 1080f / 1920.0f;
 
 	public void createWindow(boolean useP2D, boolean isFullscreen, float windowsScale) {
