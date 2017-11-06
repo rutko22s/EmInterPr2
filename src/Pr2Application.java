@@ -1,6 +1,8 @@
+import java.io.IOException;
 import java.util.HashMap;
 
 import processing.core.PApplet;
+import processing.core.PVector;
 
 public class Pr2Application extends PApplet {
 
@@ -38,12 +40,14 @@ public class Pr2Application extends PApplet {
 	}
 
 	public void setup() {
-		/*
-		 * try { kinectReader = new KinectBodyDataProvider("test.kinect", 10); } catch
-		 * (IOException e) { System.out.println("Unable to creat e kinect producer"); }
-		 */
 
-		kinectReader = new KinectBodyDataProvider(8008);
+		try {
+			kinectReader = new KinectBodyDataProvider("test3.kinect", 10);
+		} catch (IOException e) {
+			System.out.println("Unable to creat e kinect producer");
+		}
+
+		//kinectReader = new KinectBodyDataProvider(8008);
 
 		kinectReader.start();
 	}
@@ -53,6 +57,31 @@ public class Pr2Application extends PApplet {
 		noStroke();
 		background(200,200,200);
 		
+		KinectBodyData bodyData = kinectReader.getData();
+		tracker.update(bodyData);
+		for(Long id : tracker.getEnters()) {
+			people.put(id, tracker.getPeople().get(id));
+		}
+		for(Long id : tracker.getExits()) {
+			people.remove(id);
+		}
+		for(Body person : people.values()) {
+			if(person != null) {
+				drawIfValid(person.getJoint(Body.HEAD));
+			}
+		}
+		
+	}
+	
+	public void drawIfValid(PVector vec) {
+		if(vec != null) {
+			ellipse(vec.x, vec.y, .1f,.1f);
+		}
+
+	}
+	
+	public static void main(String[] args) {
+		PApplet.main(Pr2Application.class.getName());
 	}
 
 }
