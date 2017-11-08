@@ -42,7 +42,7 @@ public class Pr2Application extends PApplet {
 	public void setup() {
 
 		try {
-			kinectReader = new KinectBodyDataProvider("test3.kinect", 10);
+			kinectReader = new KinectBodyDataProvider("multitest.kinect", 10);
 		} catch (IOException e) {
 			System.out.println("Unable to creat e kinect producer");
 		}
@@ -56,6 +56,7 @@ public class Pr2Application extends PApplet {
 		setScale(.5f);		
 		noStroke();
 		background(200,200,200);
+		fill(255,255,255);
 		
 		KinectBodyData bodyData = kinectReader.getData();
 		tracker.update(bodyData);
@@ -75,6 +76,7 @@ public class Pr2Application extends PApplet {
 	
 	public void drawIfValid(PVector vec) {
 		if(vec != null) {
+			System.out.println("Coords:" + vec.x + ", " + vec.y);
 			ellipse(vec.x, vec.y, .1f,.1f);
 		}
 
