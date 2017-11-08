@@ -71,13 +71,13 @@ public class Pr2Application extends PApplet {
 			if(tracker.getPeople().containsKey(person)) {
 				Body body = tracker.getPeople().get(person);
 				drawIfValid(body.getJoint(Body.HEAD));
-				drawOrbCluster(body);
+				drawOrbCluster(body, people.get(person));
 			}
 		}
 		
 	}
 	
-	public void drawOrbCluster(Body body) {
+	public void drawOrbCluster(Body body, Presence presence) {
 		if(body != null) {
 			
 		}
