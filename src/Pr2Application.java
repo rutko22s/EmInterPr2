@@ -7,7 +7,7 @@ import processing.core.PVector;
 
 public class Pr2Application extends PApplet {
 
-	KinectBodyDataProvider kinectReader;
+	KinectBodyDataProvider kinectReader; 
 	PersonTracker tracker = new PersonTracker();
 	HashMap<Long, Presence> people = new HashMap<Long, Presence>();
 	
