@@ -56,7 +56,7 @@ public class Pr2Application extends PApplet {
 	public void draw(){
 		setScale(.5f);		
 		noStroke();
-		background(200,200,200);
+		background(0,0,0);
 		fill(255,255,255);
 		
 		KinectBodyData bodyData = kinectReader.getData();
