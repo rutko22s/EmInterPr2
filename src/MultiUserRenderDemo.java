@@ -22,7 +22,7 @@ public class MultiUserRenderDemo extends PApplet {
 	public void createWindow(boolean useP2D, boolean isFullscreen, float windowsScale) {
 		if (useP2D) {
 			if(isFullscreen) {
-				fullScreen(P2D);  			
+				fullScreen(P2D); 			
 			} else {
 				size((int)(1920 * windowsScale), (int)(1080 * windowsScale), P2D);
 			}
