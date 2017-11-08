@@ -44,7 +44,7 @@ public class Pr2Application extends PApplet {
 		try {
 			kinectReader = new KinectBodyDataProvider("multitest.kinect", 10);
 		} catch (IOException e) {
-			System.out.println("Unable to creat e kinect producer");
+			System.out.println("Unable to create kinect producer");
 		}
 
 		//kinectReader = new KinectBodyDataProvider(8008);
