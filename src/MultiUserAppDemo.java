@@ -56,7 +56,7 @@ public class MultiUserAppDemo extends PApplet {
 		
 		
 		try {
-			kinectReader = new KinectBodyDataProvider("multitest.kinect", 10);
+			kinectReader = new KinectBodyDataProvider("multipersontest2.kinect", 10);
 		} catch (IOException e) {
 			System.out.println("Unable to creat e kinect producer");
 		}
