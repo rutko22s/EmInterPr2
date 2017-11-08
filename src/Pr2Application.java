@@ -50,7 +50,7 @@ public class Pr2Application extends PApplet {
 
 		//kinectReader = new KinectBodyDataProvider(8008);
 
-		kinectReader.start();
+		kinectReader.start(); 
 	}
 	
 	public void draw(){
