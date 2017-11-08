@@ -9,7 +9,7 @@ public class Pr2Application extends PApplet {
 
 	KinectBodyDataProvider kinectReader;
 	PersonTracker tracker = new PersonTracker();
-	HashSet<Long> people = new HashSet<Long>();
+	HashMap<Long, Presence> people = new HashMap<Long, Presence>();
 	
 	public static float PROJECTOR_RATIO = 1080f / 1920.0f;
 
@@ -62,23 +62,30 @@ public class Pr2Application extends PApplet {
 		KinectBodyData bodyData = kinectReader.getData();
 		tracker.update(bodyData);
 		for(Long id : tracker.getEnters()) {
-			people.add(id);
+			people.put(id, new Presence(this));
 		}
 		for(Long id : tracker.getExits()) {
 			people.remove(id);
 		}
-		for(Long person : people) {
+		for(Long person : people.keySet()) {
 			if(tracker.getPeople().containsKey(person)) {
 				Body body = tracker.getPeople().get(person);
 				drawIfValid(body.getJoint(Body.HEAD));
+				drawOrbCluster(body);
 			}
+		}
+		
+	}
+	
+	public void drawOrbCluster(Body body) {
+		if(body != null) {
+			
 		}
 		
 	}
 	
 	public void drawIfValid(PVector vec) {
 		if(vec != null) {
-			System.out.println("Coords:" + vec.x + ", " + vec.y);
 			ellipse(vec.x, vec.y, .1f,.1f);
 		}
 
