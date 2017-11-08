@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -8,7 +9,7 @@ public class Pr2Application extends PApplet {
 
 	KinectBodyDataProvider kinectReader;
 	PersonTracker tracker = new PersonTracker();
-	HashMap<Long, Body> people = new HashMap<Long, Body>();
+	HashSet<Long> people = new HashSet<Long>();
 	
 	public static float PROJECTOR_RATIO = 1080f / 1920.0f;
 
@@ -61,14 +62,15 @@ public class Pr2Application extends PApplet {
 		KinectBodyData bodyData = kinectReader.getData();
 		tracker.update(bodyData);
 		for(Long id : tracker.getEnters()) {
-			people.put(id, tracker.getPeople().get(id));
+			people.add(id);
 		}
 		for(Long id : tracker.getExits()) {
 			people.remove(id);
 		}
-		for(Body person : people.values()) {
-			if(person != null) {
-				drawIfValid(person.getJoint(Body.HEAD));
+		for(Long person : people) {
+			if(tracker.getPeople().containsKey(person)) {
+				Body body = tracker.getPeople().get(person);
+				drawIfValid(body.getJoint(Body.HEAD));
 			}
 		}
 		
