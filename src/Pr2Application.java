@@ -13,8 +13,6 @@ public class Pr2Application extends PApplet {
 	
 	public static float PROJECTOR_RATIO = 1080f / 1920.0f;
 	
-	Orb orb;
-
 	public void createWindow(boolean useP2D, boolean isFullscreen, float windowsScale) {
 		if (useP2D) {
 			if (isFullscreen) {
@@ -43,8 +41,6 @@ public class Pr2Application extends PApplet {
 	}
 
 	public void setup() {
- orb =  new Orb(this);
-
 		try {
 			kinectReader = new KinectBodyDataProvider("multipersontest2.kinect", 10);
 		} catch (IOException e) {
@@ -63,14 +59,11 @@ public class Pr2Application extends PApplet {
 		noStroke();
 		background(0,0,0);
 		fill(255,255,255);
-		
-		
-		//orb.draw();
-		
+				
 		KinectBodyData bodyData = kinectReader.getData();
 		tracker.update(bodyData);
 		for(Long id : tracker.getEnters()) {
-			people.put(id, new Presence(this));
+			people.put(id, new Presence(this, tracker.getPeople().get(id)));
 		}
 		for(Long id : tracker.getExits()) {
 			people.remove(id);
@@ -78,7 +71,7 @@ public class Pr2Application extends PApplet {
 		for(Long person : people.keySet()) {
 			if(tracker.getPeople().containsKey(person)) {
 				Body body = tracker.getPeople().get(person);
-				drawIfValid(body.getJoint(Body.HEAD));
+				//drawIfValid(body.getJoint(Body.HEAD));
 				drawOrbCluster(body, people.get(person));
 			}
 		}
@@ -87,7 +80,8 @@ public class Pr2Application extends PApplet {
 	
 	public void drawOrbCluster(Body body, Presence presence) {
 		if(body != null) {
-			orb.draw();
+			//orb.draw();
+			presence.draw(body);
 		}
 		
 	}
