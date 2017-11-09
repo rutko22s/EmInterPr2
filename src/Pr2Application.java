@@ -82,12 +82,12 @@ public class Pr2Application extends PApplet {
 		
 	}
 	
-	public void drawOrbCluster(Body body, Presence presence) {
-		if(body != null) {
-			
-		}
-		
-	}
+//	public void drawOrbCluster(Body body, Presence presence) {
+//		if(body != null) {
+//			
+//		}
+//		
+//	}
 	
 	public void drawIfValid(PVector vec,Long id) {
 		if(vec != null) {

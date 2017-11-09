@@ -58,7 +58,7 @@ public class Orb {
 		
 		parent.specular(255,255,255);
 		parent.pushMatrix();
-		//parent.translate(.5f,.25f, 1);
+		
 		parent.translate(xPos,yPos, 2);
 		parent.sphere(radius);
 		parent.popMatrix();

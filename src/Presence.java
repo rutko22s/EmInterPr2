@@ -27,7 +27,7 @@ public class Presence {
 
 	public void draw(){
 		
-		//for(int i = 0; i < 6; i ++){
+	
 			Orb orb = new Orb(parent,  xPos, yPos);
 			Orb orb1 = new Orb(parent,  xPos + 0.10f, yPos + 0.10f);
 			Orb orb2 = new Orb(parent,  xPos , yPos - 0.10f);
@@ -36,7 +36,7 @@ public class Presence {
 			Orb orb5 = new Orb(parent,  xPos + 0.10f, yPos );
 			
 			
-		//}
+		
 		
 		
 	}
