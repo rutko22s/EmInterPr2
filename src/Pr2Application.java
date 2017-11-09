@@ -18,7 +18,7 @@ public class Pr2Application extends PApplet {
 			if (isFullscreen) {
 				fullScreen(P2D);
 			} else {
-				size((int) (1920 * windowsScale), (int) (1080 * windowsScale), P2D);
+				size((int) (1920 * windowsScale), (int) (1080 * windowsScale), P3D);
 			}
 		} else {
 			if (isFullscreen) {
@@ -53,6 +53,7 @@ public class Pr2Application extends PApplet {
 		kinectReader.start(); 
 	}
 	
+	
 	public void draw(){
 		setScale(.5f);		
 		noStroke();
@@ -62,7 +63,11 @@ public class Pr2Application extends PApplet {
 		KinectBodyData bodyData = kinectReader.getData();
 		tracker.update(bodyData);
 		for(Long id : tracker.getEnters()) {
-			people.put(id, new Presence(this));
+			Body personBody = tracker.people.get(id);
+			
+			PVector spineBase = personBody.getJoint(Body.SPINE_BASE);
+			
+			people.put(id, new Presence(this,spineBase.x, spineBase.y));
 		}
 		for(Long id : tracker.getExits()) {
 			people.remove(id);
@@ -70,8 +75,8 @@ public class Pr2Application extends PApplet {
 		for(Long person : people.keySet()) {
 			if(tracker.getPeople().containsKey(person)) {
 				Body body = tracker.getPeople().get(person);
-				drawIfValid(body.getJoint(Body.HEAD));
-				drawOrbCluster(body, people.get(person));
+				drawIfValid(body.getJoint(Body.SPINE_BASE), person );
+				//drawOrbCluster(body, people.get(person));
 			}
 		}
 		
@@ -84,9 +89,12 @@ public class Pr2Application extends PApplet {
 		
 	}
 	
-	public void drawIfValid(PVector vec) {
+	public void drawIfValid(PVector vec,Long id) {
 		if(vec != null) {
-			ellipse(vec.x, vec.y, .1f,.1f);
+			
+			Presence p = new Presence(this, vec.x ,vec.y);
+			p.draw();
+			
 		}
 
 	}
