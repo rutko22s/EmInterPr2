@@ -75,21 +75,15 @@ public class Pr2Application extends PApplet {
 		for(Long person : people.keySet()) {
 			if(tracker.getPeople().containsKey(person)) {
 				Body body = tracker.getPeople().get(person);
-				drawIfValid(body.getJoint(Body.SPINE_BASE), person );
-				//drawOrbCluster(body, people.get(person));
+				drawOrbCluster(body.getJoint(Body.SPINE_BASE), person );
+				
 			}
 		}
 		
 	}
 	
-//	public void drawOrbCluster(Body body, Presence presence) {
-//		if(body != null) {
-//			
-//		}
-//		
-//	}
-	
-	public void drawIfValid(PVector vec,Long id) {
+
+	public void drawOrbCluster(PVector vec,Long id) {
 		if(vec != null) {
 			
 			Presence p = new Presence(this, vec.x ,vec.y);

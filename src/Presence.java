@@ -26,14 +26,15 @@ public class Presence {
 	}
 
 	public void draw(){
-		
-	
+			
+			float randomizePosition = parent.random(0.10f, 0.15f);
+				
 			Orb orb = new Orb(parent,  xPos, yPos);
-			Orb orb1 = new Orb(parent,  xPos + 0.10f, yPos + 0.10f);
-			Orb orb2 = new Orb(parent,  xPos , yPos - 0.10f);
-			Orb orb3 = new Orb(parent,  xPos, yPos + 0.10f);
-			Orb orb4 = new Orb(parent,  xPos - 0.10f, yPos );
-			Orb orb5 = new Orb(parent,  xPos + 0.10f, yPos );
+			Orb orb1 = new Orb(parent,  xPos + randomizePosition, yPos + randomizePosition);
+			Orb orb2 = new Orb(parent,  xPos , yPos - randomizePosition);
+			Orb orb3 = new Orb(parent,  xPos, yPos + randomizePosition);
+			Orb orb4 = new Orb(parent,  xPos - randomizePosition, yPos );
+			Orb orb5 = new Orb(parent,  xPos + randomizePosition, yPos );
 			
 			
 		

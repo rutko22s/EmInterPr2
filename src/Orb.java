@@ -51,6 +51,7 @@ public class Orb {
 		
 		parent.fill(0, 51, 102);
 		parent.lightSpecular(255,255,255);
+		
 		//COMMENT THIS AND YOU WILL NOT GET AN ERROR, BUT THE COLORS FADE
 		//parent.directionalLight(204, 204, 204, 0, 0, 1);
 		
