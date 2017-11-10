@@ -10,6 +10,8 @@ public class Pr2Application extends PApplet {
 	KinectBodyDataProvider kinectReader; 
 	PersonTracker tracker = new PersonTracker();
 	HashMap<Long, Presence> people = new HashMap<Long, Presence>();
+	enum ColorSlot {RED,GREEN,BLUE};
+	ColorSlot currentColor;
 	
 	public static float PROJECTOR_RATIO = 1080f / 1920.0f;
 	
@@ -53,6 +55,7 @@ public class Pr2Application extends PApplet {
 		
 		//lightSpecular(255, 255, 255);
 		//directionalLight(204, 204, 204, 0, 0, 1);
+		currentColor = ColorSlot.RED;
 
 	}
 
@@ -72,10 +75,20 @@ public class Pr2Application extends PApplet {
 			Body personBody = tracker.people.get(id);
 			
 			PVector spineBase = personBody.getJoint(Body.SPINE_BASE);
-			
-			
+					
 
-			people.put(id, new Presence(this, tracker.getPeople().get(id)));
+			people.put(id, new Presence(this, tracker.getPeople().get(id), currentColor));
+			switch (currentColor) {
+			case RED:
+				currentColor = ColorSlot.GREEN;
+				break;
+			case GREEN:
+				currentColor = ColorSlot.BLUE;
+				break;
+			case BLUE:
+				currentColor = ColorSlot.RED;
+				break;
+			}
 
 		}
 		for(Long id : tracker.getExits()) {

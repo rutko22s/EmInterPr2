@@ -10,7 +10,9 @@ import processing.core.PVector;
 public class Orb {
 
 	PApplet parent;
-	private int color;
+//	private int color;
+	private Pr2Application.ColorSlot orbColor;
+	private int randomColor;
 	private float startingRadius;
 	private float radius;// = 0.05f;
 	private float maxRadius;
@@ -28,12 +30,13 @@ public class Orb {
 	float randomizePositionx;
 	float randomizePositiony;
 
-	public Orb(PApplet parent, float x, float y) {
+	public Orb(PApplet parent, float x, float y, Pr2Application.ColorSlot orbColor) {
 		this.parent = parent;
+		this.orbColor = orbColor;
 		// randomize everything
-		parent.colorMode(PApplet.HSB);
-		color = parent.color(parent.random(255), 200, 150);
-		// radius = parent.random(1);
+//		parent.colorMode(PApplet.HSB);
+//		color = parent.color(parent.random(100,255), 255, 255);
+		randomColor = Math.round(parent.random(150,255));
 		pulseRate = parent.random(1);
 		startingRadius = radius = parent.random(.01f,.1f);
 		maxRadius = radius + parent.random(.07f);
@@ -44,12 +47,8 @@ public class Orb {
 		this.x = x + randomizePositionx;
 		this.y = y + randomizePositiony;
 		
-		color = Math.round(parent.random(255));
+//		color = Math.round(parent.random(255));
 
-	}
-	
-	public int getColor() {
-		return color;
 	}
 	
 	public float getRadius() {
@@ -73,7 +72,7 @@ public class Orb {
 	 * See note in Presence
 	 */
 	public void glow() {
-		color += .01; //is this how brightening something works?
+		//TODO
 	}
 	
 	public void draw(){
@@ -86,15 +85,26 @@ public class Orb {
 		} else {
 			radius += .001f;
 		}
-		parent.noStroke();
-		parent.fill(color);
-		
 		//parent.specular(255,255,255);
 		//parent.specular(color);
 		parent.pushMatrix();
+		parent.lights();
 		parent.translate(x, y, 1);
 //		parent.rotate(x);
 //		x += .01f;
+		parent.noStroke();
+		switch (orbColor) {
+		case RED:
+			parent.fill(randomColor, 0, 50);
+			break;
+		case GREEN:
+			parent.fill(0, randomColor, 50);
+			break;
+		case BLUE:
+			parent.fill(0, 50, randomColor);
+			break;
+		}
+		//parent.fill(randomColor, 200, 200);
 		parent.sphere(radius);
 		parent.popMatrix();	
 		

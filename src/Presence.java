@@ -19,10 +19,13 @@ public class Presence {
 	PApplet parent;
 	private long lastFused; //keeps track of the time since the presence last fused with another presence
 	private float jitter = 0;
+	private int randomColor;
+	Pr2Application.ColorSlot orbColor;
 	
-	public Presence(PApplet parent, Body body) {
+	public Presence(PApplet parent, Body body, Pr2Application.ColorSlot orbColor) {
 		lastFused = System.currentTimeMillis();
 		this.parent = parent;
+		this.orbColor = orbColor;
 		
 		PVector around = body.getJoint(Body.SPINE_BASE);
 		//make several attempts to grab body parts if they are missing
@@ -42,7 +45,7 @@ public class Presence {
 		
 		//initialize every orb in presence's cluster (for now it's 10)
 		for(int i=0; i<10; i++) {
-			orbList.add(new Orb(this.parent, xPos, yPos));
+			orbList.add(new Orb(this.parent, xPos, yPos, orbColor));
 		}
 	}
 
@@ -116,6 +119,5 @@ public class Presence {
 		lastFused = System.currentTimeMillis();
 	}
 
-	
-
 }
+
