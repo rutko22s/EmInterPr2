@@ -11,7 +11,10 @@ public class Orb {
 
 	PApplet parent;
 	private int color;
-	private float radius = 0.05f;
+	private float startingRadius;
+	private float radius;// = 0.05f;
+	private float maxRadius;
+	private boolean decreasing = false;
 	private float pulseRate;
 
 	private float xPos;
@@ -19,23 +22,29 @@ public class Orb {
 
 	private float x;
 	private float y;
-
 	
+	//private float rx, ry, rz = 1;
+	
+	float randomizePositionx;
+	float randomizePositiony;
 
 	public Orb(PApplet parent, float x, float y) {
-
-
 		this.parent = parent;
-		//randomize everything
+		// randomize everything
 		parent.colorMode(PApplet.HSB);
 		color = parent.color(parent.random(255), 200, 150);
-		//radius = parent.random(1);
+		// radius = parent.random(1);
 		pulseRate = parent.random(1);
-		
-	
+		startingRadius = radius = parent.random(.01f,.1f);
+		maxRadius = radius + parent.random(.07f);
 
-		this.x = x ;
-		this.y = y;
+		randomizePositionx = parent.random(-0.3f, 0.3f);
+		randomizePositiony = parent.random(-0.4f, 0.4f);
+
+		this.x = x + randomizePositionx;
+		this.y = y + randomizePositiony;
+		
+		color = Math.round(parent.random(255));
 
 	}
 	
@@ -54,44 +63,40 @@ public class Orb {
 
 	
 
-	public void setLocation(float newX, float newY) {
-		x = newX;
-		y = newY;
+	public void setLocation(float newX, float newY, float jitter) {
+		float moveBy = parent.random(-jitter, jitter);
+		x = newX + randomizePositionx + moveBy;
+		y = newY + randomizePositiony + moveBy;
 	}
 	
 	/**
 	 * See note in Presence
 	 */
-	public void grow() {
-		radius += .01;
+	public void glow() {
+		color += .01; //is this how brightening something works?
 	}
 	
 	public void draw(){
-		//System.out.println("Sphere is at: " + x + ", " + y);
-//		parent.size(100, 100, PApplet.P3D);
-//		parent.background(0);
-		
+		if(radius > maxRadius) 
+			decreasing = true;
+		if(decreasing) {
+			radius -= .001f;
+			if(radius < (.01+startingRadius/2)) 
+				decreasing = false;
+		} else {
+			radius += .001f;
+		}
 		parent.noStroke();
+		parent.fill(color);
 		
-	//	parent.background(0);
-		
-//		parent.fill(0, 51, 102);
-//		parent.lightSpecular(255,255,255);
-//		parent.directionalLight(204, 204, 204, 0, 0, 1);
-		
-		//parent.translate(20, 50, 0);
-		
-		parent.specular(255,255,255);
+		//parent.specular(255,255,255);
+		//parent.specular(color);
 		parent.pushMatrix();
-		//parent.translate(.5f,.25f, 1); //this is where x and y need to go
 		parent.translate(x, y, 1);
-		parent.sphere(.1f);
-		parent.popMatrix();
-		
-		//parent.translate(60, 0, 0);
-		//parent.specular(204, 102, 0);
-		//parent.sphere(30);
-		
+//		parent.rotate(x);
+//		x += .01f;
+		parent.sphere(radius);
+		parent.popMatrix();	
 		
 		
 	}

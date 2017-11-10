@@ -50,6 +50,10 @@ public class Pr2Application extends PApplet {
 		//kinectReader = new KinectBodyDataProvider(8008);
 
 		kinectReader.start(); 
+		
+		//lightSpecular(255, 255, 255);
+		//directionalLight(204, 204, 204, 0, 0, 1);
+
 	}
 
 	
