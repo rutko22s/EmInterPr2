@@ -73,20 +73,6 @@ public class Presence {
 			this.yPos = around.y;
 		}
 
-//		float randomizePosition = parent.random(0.2f, 0.25f);
-//		orbList.get(0).setLocation(xPos, yPos);
-//		orbList.get(0).draw();
-//		orbList.get(1).setLocation(xPos + randomizePosition, yPos + randomizePosition);
-//		orbList.get(1).draw();
-//		orbList.get(2).setLocation(xPos - randomizePosition/2, yPos - randomizePosition);
-//		orbList.get(2).draw();
-//		orbList.get(3).setLocation(xPos,yPos + randomizePosition);
-//		orbList.get(3).draw();
-//		orbList.get(4).setLocation( xPos - randomizePosition/2, yPos);
-//		orbList.get(4).draw();
-//		orbList.get(5).setLocation( xPos + randomizePosition, yPos - randomizePosition/2);
-//		orbList.get(5).draw();
-
 		//calc time since lastFused
 		if((System.currentTimeMillis() - lastFused)%200 == 0) {
 			if (jitter < .1) {
@@ -98,6 +84,12 @@ public class Presence {
 			orb.draw();
 		}
 	
+	}
+	
+	
+	public void drawBigOrb(float x, float x1, float y){
+		Orb bigOrb = new Orb(this.parent, x, x1,  y);
+		fuse();
 	}
 
 	/**
@@ -118,6 +110,9 @@ public class Presence {
 	public void fuse() {
 		lastFused = System.currentTimeMillis();
 	}
+	
+	
+	
 
 }
 

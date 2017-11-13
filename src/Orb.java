@@ -30,6 +30,19 @@ public class Orb {
 	float randomizePositionx;
 	float randomizePositiony;
 
+	public Orb(PApplet parent, float x,float x1, float y){
+		this.parent = parent;
+		
+		this.xPos =  (x1 - x )/2;
+		this.yPos = y;
+		 biggerDraw();
+		
+		
+		
+	}
+	
+	
+	
 	public Orb(PApplet parent, float x, float y, Pr2Application.ColorSlot orbColor) {
 		this.parent = parent;
 		this.orbColor = orbColor;
@@ -109,6 +122,20 @@ public class Orb {
 		parent.popMatrix();	
 		
 		
+	}
+	
+	public void biggerDraw(){
+		parent.pushMatrix();
+		parent.lights();
+		parent.translate(xPos, yPos, 1);
+		parent.noStroke();
+		parent.fill(255,255,255);
+		
+		float bigRadius = 0.5f;
+		//float bigRadius = 1f;
+		
+		parent.sphere(bigRadius);
+		parent.popMatrix();	
 	}
 
 	
