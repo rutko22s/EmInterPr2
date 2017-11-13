@@ -2,14 +2,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 //import java.util.HashSet;
-
-
+import java.util.Iterator;
 
 import processing.core.PApplet;
 import processing.core.PVector;
 
 public class Pr2Application extends PApplet {
 
+	ArrayList<BigOrb> bigOrbs = new ArrayList<BigOrb>();
+
+	
 	KinectBodyDataProvider kinectReader;
 	PersonTracker tracker = new PersonTracker();
 	HashMap<Long, Presence> people = new HashMap<Long, Presence>();
@@ -111,6 +113,9 @@ public class Pr2Application extends PApplet {
 
 		ArrayList<Presence> list = new ArrayList<Presence>();
 		list.addAll(people.values());
+		
+		
+		
 		if (numPresence > 1) {
 			// for (Presence p : people.values()) {
 			for (int i = 0; i < list.size(); i++) {
@@ -122,13 +127,45 @@ public class Pr2Application extends PApplet {
 						// System.out.println("x1 " + x1);
 						// System.out.println("x " + x);
 						if (x1 < x - 0.002f || x < x1 - 0.002f) {
+							float xCenter = (x1+x)/2;
+							
+							BigOrb closest = null;
+							float closestDist = 1f;
+							for(BigOrb b : bigOrbs) {
+								float dx = Math.abs(b.x-xCenter);
+								if(dx <= closestDist) {
+									closest = b;
+									closestDist = dx;
+								}
+							}
+							if (closest != null) {
+								closest.addPresence(list.get(i));
+								closest.addPresence(list.get(j));
+							} else {
+								BigOrb bo = new BigOrb();
+								bo.addPresence(list.get(i));
+								bo.addPresence(list.get(j));
+								bigOrbs.add(bo);
+							}
 
-							//list.get(i).drawBigOrb(x, x1, list.get(i).yPos);
+							
 
 						}
 					}
 				}
 			}
+		}
+		
+		Iterator<BigOrb> bigOrbIterator = bigOrbs.iterator();
+		while(bigOrbIterator.hasNext()) {
+			BigOrb bo = bigOrbIterator.next();
+			if(bo.presenceList.size() == 0) {
+				bigOrbIterator.remove();
+			} else {
+				bo.draw(this);
+				bo.presenceList.clear();
+			}
+			
 		}
 
 	}
