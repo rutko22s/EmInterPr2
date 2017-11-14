@@ -9,12 +9,14 @@ public class BigOrb {
 	float x;
 	float y;
 	
-	float radius = 0;
+	float radius = 0f;
 	
 	public BigOrb(){
 	}
 	
 	public void addPresence(Presence p) {
+		p.hideCluster();
+		p.fuse();
 		presenceList.add(p);
 		updateLocation();
 	}
@@ -58,15 +60,16 @@ public class BigOrb {
 		papp.shininess(0.7f);
 		//papp.specular(255, 255, 255);
 		
+	
 		
-		
-		
-		
-		
-		float bigRadius = 0.5f;
-		radius +=.01;
-		radius = (radius > bigRadius) ? bigRadius : radius;
-		//float bigRadius = 1f;
+		//float bigRadius = 0.5f;
+		float bigRadius = .2f*presenceList.size();
+		if(radius > bigRadius) {
+			radius -=.01;
+		} else {
+			radius +=.02;
+			radius = (radius > bigRadius) ? bigRadius : radius;
+		}
 		
 		papp.sphere(radius);
 		

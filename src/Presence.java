@@ -15,6 +15,8 @@ public class Presence {
 	ArrayList<Orb> orbList = new ArrayList<Orb>();
 	float xPos;
 	float yPos;
+	
+	boolean drawCluster = true;
 
 	PApplet parent;
 	private long lastFused; //keeps track of the time since the presence last fused with another presence
@@ -75,39 +77,31 @@ public class Presence {
 
 		//calc time since lastFused
 		if((System.currentTimeMillis() - lastFused)%200 == 0) {
-			if (jitter < .1) {
+			if (jitter < .2) {
 				jitter += .001f;
 			}
 		}
-		for(Orb orb : orbList) {
-			orb.setLocation(xPos, yPos, jitter);
-			orb.draw();
+		if (drawCluster) {
+			for (Orb orb : orbList) {
+				orb.setLocation(xPos, yPos, jitter);
+				orb.draw();
+			}
 		}
-	
-	}
-	
-	
-	public void drawBigOrb(float x, float x1, float y){
-		Orb bigOrb = new Orb(this.parent, x, x1,  y);
-		fuse();
-	}
-
-	/**
-	 * Maybe orbs get a little brighter when they get close to another body? So
-	 * the user knows that getting close to someone else will cause something to
-	 * happen Literally this method just makes each orb a little lighter
-	 */
-	public void glow() {
-		for (Orb orb : orbList) {
-			orb.glow();
+		else {
+			drawCluster = true;
 		}
-		
 	}
+	
+	public void hideCluster() {
+		drawCluster = false;
+	}
+	
 	
 	/**This is the method that should be called when two or more presences (including this one) fuse
 	 * called by the Pr2Application class on every presence when they come together
 	 */
 	public void fuse() {
+		jitter = 0;
 		lastFused = System.currentTimeMillis();
 	}
 	
