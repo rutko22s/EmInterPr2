@@ -1,4 +1,5 @@
 import processing.core.PApplet;
+
 import java.awt.Color;
 import processing.core.*;
 import processing.core.PVector;
@@ -106,6 +107,7 @@ public class Orb {
 //		parent.rotate(x);
 //		x += .01f;
 		parent.noStroke();
+		
 		switch (orbColor) {
 		case RED:
 			parent.fill(randomColor, 0, 50);
@@ -118,6 +120,7 @@ public class Orb {
 			break;
 		}
 		//parent.fill(randomColor, 200, 200);
+		
 		parent.sphere(radius);
 		parent.popMatrix();	
 		
@@ -126,10 +129,10 @@ public class Orb {
 	
 	public void biggerDraw(){
 		parent.pushMatrix();
-		parent.lights();
+	//	parent.lights();
 		parent.translate(xPos, yPos, 1);
 		parent.noStroke();
-		parent.fill(255,255,255);
+	//	parent.fill(255,255,255);
 		
 		float bigRadius = 0.5f;
 		//float bigRadius = 1f;
