@@ -5,11 +5,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PVector;
 
 public class Pr2Application extends PApplet {
 
 	ArrayList<BigOrb> bigOrbs = new ArrayList<BigOrb>();
+	ParticleSystem ps;
+	float randomizePositionx;
+	float randomizePositiony;
+	//boolean star = false;
 
 	
 	KinectBodyDataProvider kinectReader;
@@ -49,6 +54,10 @@ public class Pr2Application extends PApplet {
 
 	public void settings() {
 		createWindow(true, false, .25f);
+		
+		PImage img = loadImage("star.png");
+		ps = new ParticleSystem(this, 0, new PVector(0, 0), img);
+		
 	}
 
 	public void setup() {
@@ -108,12 +117,22 @@ public class Pr2Application extends PApplet {
 			}
 
 		}
+		
+		
+		
 
+			
+		
 		int numPresence = people.size();
 
 		ArrayList<Presence> list = new ArrayList<Presence>();
 		list.addAll(people.values());
 		
+		randomizePositionx = random(-0.6f, 0.6f);
+		randomizePositiony = random(0.2f, 1);
+		ps.origin = new PVector(randomizePositionx, randomizePositiony);
+		
+		ps.run();
 		
 		
 		if (numPresence > 1) {
@@ -137,15 +156,27 @@ public class Pr2Application extends PApplet {
 									closest = b;
 									closestDist = dx;
 								}
+								
 							}
 							if (closest != null) {
 								closest.addPresence(list.get(i));
 								closest.addPresence(list.get(j));
 							} else {
+								//this draws particles when big orb is drawn
+								//but doesnt stay
+								for (int p = 0; p < 20; p++) {
+									ps.addParticle();
+									
+								}
+								
 								BigOrb bo = new BigOrb();
 								bo.addPresence(list.get(i));
 								bo.addPresence(list.get(j));
 								bigOrbs.add(bo);
+								
+								
+								
+								
 							}
 
 							
@@ -159,10 +190,13 @@ public class Pr2Application extends PApplet {
 		Iterator<BigOrb> bigOrbIterator = bigOrbs.iterator();
 		while(bigOrbIterator.hasNext()) {
 			BigOrb bo = bigOrbIterator.next();
+			
 			if(bo.presenceList.size() == 0) {
 				bigOrbIterator.remove();
+			
 			} else {
 				bo.draw(this);
+				
 				bo.presenceList.clear();
 			}
 			
