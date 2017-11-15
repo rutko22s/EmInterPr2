@@ -11,7 +11,6 @@ public class Pr2Application extends PApplet {
 
 	ArrayList<BigOrb> bigOrbs = new ArrayList<BigOrb>();
 
-	
 	KinectBodyDataProvider kinectReader;
 	PersonTracker tracker = new PersonTracker();
 	HashMap<Long, Presence> people = new HashMap<Long, Presence>();
@@ -52,13 +51,13 @@ public class Pr2Application extends PApplet {
 	}
 
 	public void setup() {
-//		try {
-//			kinectReader = new KinectBodyDataProvider("multipersontest2.kinect", 10);
-//		} catch (IOException e) {
-//			System.out.println("Unable to create kinect producer");
-//		}
+		try {
+			kinectReader = new KinectBodyDataProvider("multipersontest2.kinect", 10);
+		} catch (IOException e) {
+			System.out.println("Unable to create kinect producer");
+		}
 
-		 kinectReader = new KinectBodyDataProvider(8008);
+		 //kinectReader = new KinectBodyDataProvider(8008);
 
 		kinectReader.start();
 
@@ -73,6 +72,8 @@ public class Pr2Application extends PApplet {
 		noStroke();
 		background(0, 0, 0);
 		fill(255, 255, 255);
+		
+		//boolean bigOrbDrawn = false;
 
 		KinectBodyData bodyData = kinectReader.getData();
 		tracker.update(bodyData);
@@ -102,7 +103,7 @@ public class Pr2Application extends PApplet {
 		for (Long person : people.keySet()) {
 			if (tracker.getPeople().containsKey(person)) {
 				Body body = tracker.getPeople().get(person);
-
+				
 				drawOrbCluster(body, people.get(person));
 
 			}
@@ -110,30 +111,30 @@ public class Pr2Application extends PApplet {
 		}
 
 		int numPresence = people.size();
+		float x = 0;
+		float x1 = 0;
+		float xCenter;
 
 		ArrayList<Presence> list = new ArrayList<Presence>();
 		list.addAll(people.values());
-		
-		
-		
+
 		if (numPresence > 1) {
-			// for (Presence p : people.values()) {
+
 			for (int i = 0; i < list.size(); i++) {
-				float x = list.get(i).xPos;
+				x = list.get(i).xPos;
 				for (int j = i; j < list.size(); j++) {
 					if (list.get(j) != list.get(i)) {
-						float x1 = list.get(j).xPos;
+						x1 = list.get(j).xPos;
 
-						// System.out.println("x1 " + x1);
-						// System.out.println("x " + x);
-						if (x1 < x - 0.002f || x < x1 - 0.002f) {
-							float xCenter = (x1+x)/2;
+						if (x1 < x - 0.0002f || x < x1 - 0.0002f) {
+							xCenter = (x1 + x) / 2;
 							
+
 							BigOrb closest = null;
 							float closestDist = 1f;
-							for(BigOrb b : bigOrbs) {
-								float dx = Math.abs(b.x-xCenter);
-								if(dx <= closestDist) {
+							for (BigOrb b : bigOrbs) {
+								float dx = Math.abs(b.x - xCenter);
+								if (dx <= closestDist) {
 									closest = b;
 									closestDist = dx;
 								}
@@ -142,10 +143,11 @@ public class Pr2Application extends PApplet {
 								closest.addPresence(list.get(i));
 								closest.addPresence(list.get(j));
 								
-								if(Math.abs(x-x1)<0.9) {
+								if(Math.abs(x - x1)  < 0.9){
 									closest.draw(this);
-								} else {
-									
+								}
+								else{
+									closest.disappearBigOrb(this);
 								}
 							} else {
 								BigOrb bo = new BigOrb();
@@ -154,25 +156,26 @@ public class Pr2Application extends PApplet {
 								bigOrbs.add(bo);
 							}
 
-							
-
 						}
 					}
 				}
 			}
-		}
-		
-//		Iterator<BigOrb> bigOrbIterator = bigOrbs.iterator();
-//		while(bigOrbIterator.hasNext()) {
-//			BigOrb bo = bigOrbIterator.next();
-//			if(bo.presenceList.size() == 0) {
-//				bigOrbIterator.remove();
-//			} else {
-//				bo.draw(this);
-//				bo.presenceList.clear();
+
+//			Iterator<BigOrb> bigOrbIterator = bigOrbs.iterator();
+//			while (bigOrbIterator.hasNext()) {
+//				BigOrb bo = bigOrbIterator.next();
+//				if (bo.presenceList.size() == 0) {
+//					bigOrbIterator.remove();
+//				} else {
+//					//if (x < x1 - 0.002f) {
+//						bo.draw(this);
+//						bo.presenceList.clear();
+//					//}
+//				}
+//
 //			}
-//			
-//		}
+		}
+
 
 	}
 
