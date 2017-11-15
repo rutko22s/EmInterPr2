@@ -52,13 +52,13 @@ public class Pr2Application extends PApplet {
 	}
 
 	public void setup() {
-		try {
-			kinectReader = new KinectBodyDataProvider("multipersontest2.kinect", 10);
-		} catch (IOException e) {
-			System.out.println("Unable to create kinect producer");
-		}
+//		try {
+//			kinectReader = new KinectBodyDataProvider("multipersontest2.kinect", 10);
+//		} catch (IOException e) {
+//			System.out.println("Unable to create kinect producer");
+//		}
 
-		// kinectReader = new KinectBodyDataProvider(8008);
+		 kinectReader = new KinectBodyDataProvider(8008);
 
 		kinectReader.start();
 
@@ -141,6 +141,12 @@ public class Pr2Application extends PApplet {
 							if (closest != null) {
 								closest.addPresence(list.get(i));
 								closest.addPresence(list.get(j));
+								
+								if(Math.abs(x-x1)<0.9) {
+									closest.draw(this);
+								} else {
+									
+								}
 							} else {
 								BigOrb bo = new BigOrb();
 								bo.addPresence(list.get(i));
@@ -156,17 +162,17 @@ public class Pr2Application extends PApplet {
 			}
 		}
 		
-		Iterator<BigOrb> bigOrbIterator = bigOrbs.iterator();
-		while(bigOrbIterator.hasNext()) {
-			BigOrb bo = bigOrbIterator.next();
-			if(bo.presenceList.size() == 0) {
-				bigOrbIterator.remove();
-			} else {
-				bo.draw(this);
-				bo.presenceList.clear();
-			}
-			
-		}
+//		Iterator<BigOrb> bigOrbIterator = bigOrbs.iterator();
+//		while(bigOrbIterator.hasNext()) {
+//			BigOrb bo = bigOrbIterator.next();
+//			if(bo.presenceList.size() == 0) {
+//				bigOrbIterator.remove();
+//			} else {
+//				bo.draw(this);
+//				bo.presenceList.clear();
+//			}
+//			
+//		}
 
 	}
 

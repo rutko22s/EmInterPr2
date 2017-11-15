@@ -72,6 +72,7 @@ public class BigOrb {
 		}
 		
 		papp.sphere(radius);
+		papp.filter(papp.BLUR,2);
 		
 		papp.popMatrix();	
 	}
