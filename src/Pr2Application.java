@@ -61,6 +61,7 @@ public class Pr2Application extends PApplet {
 		PImage img = loadImage("star.png");
 		ps = new ParticleSystem(this, 0, new PVector(0, 0), img);
 		
+		//IF GIF DOESN'T WORK TRY TO FIND BETTER BACKGROUND PICTURE
 		imgBackground = loadImage("purplebackground.gif");
 		//imgBackground = loadImage("purplebackground.gif").GIF;
 		imgBackground.resize(displayWidth, displayHeight);
