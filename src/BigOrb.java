@@ -1,7 +1,7 @@
 import java.util.HashSet;
 
-
 import processing.core.PApplet;
+import processing.core.PShape;
 
 public class BigOrb {
 	
@@ -9,14 +9,14 @@ public class BigOrb {
 	float x;
 	float y;
 	
-	float radius = 0f;
+	float radius = 0.01f;
+	
 	
 	public BigOrb(){
 	}
 	
 	public void addPresence(Presence p) {
-		p.hideCluster();
-		p.fuse();
+		p.fuse();	
 		presenceList.add(p);
 		updateLocation();
 	}
@@ -32,47 +32,51 @@ public class BigOrb {
 		y /= presenceList.size();
 	}
 	
-	public void draw(PApplet papp) {
+	public void draw(PApplet papp){
 		papp.pushMatrix();
-//		papp.lights();
-//		papp.translate(x, y, 1);
-//		papp.noStroke();
-//		papp.fill(255,255,255);
-		
-		papp.noStroke();
-		//papp.background(0);
-		papp.fill(0, 51, 102);
-		papp.ambientLight(102, 102, 102);
-		papp.lightSpecular(204, 204, 204);
-	
-		papp.directionalLight(102, 102, 102, 0, -1, 0.3f);
-		
-		//papp.lightSpecular(102, 102, 102);
-		//papp.directionalLight(102, 102, 102, 0, 1, 1);
-		//papp.lightSpecular(102, 102, 102);
 
-		papp.specular(255, 255, 255);
-	//	papp.ambient(0,51,102);
-		//papp.emissive(0, 26, 51);
-		//papp.directionalLight(102, 102, 102, 0, 1, 1);
+		papp.noStroke();
+		papp.fill(0, 153, 204);
+//		papp.ambientLight(102, 102, 102);
+		papp.lightSpecular(204,204,204);
+//	
+		papp.directionalLight(102,102,102, 0, y-1, 0.3f);
+
+		papp.specular(255,255,255);
 		papp.translate(x, y, 1);
 		
-		papp.shininess(0.7f);
-		//papp.specular(255, 255, 255);
-		
-	
+		//papp.shininess(0.7f);			
 		
 		//float bigRadius = 0.5f;
-		float bigRadius = .2f*presenceList.size();
-		if(radius > bigRadius) {
-			radius -=.01;
-		} else {
-			radius +=.02;
-			radius = (radius > bigRadius) ? bigRadius : radius;
-		}
+		
+		radius = radius + 0.003f;
+		float bigRadius = .1f;
+		 
+		radius = (radius > bigRadius) ? bigRadius : radius;
+		 
+		 
+
+	 
+
+			//else {
+//			radius +=.02;
+//			radius = (radius > bigRadius) ? bigRadius : radius;
+//		}
+		
 		
 		papp.sphere(radius);
+		//papp.filter(papp.BLUR,2);
 		
-		papp.popMatrix();	
+		papp.popMatrix();
+	}
+	
+
+	public void disappearBigOrb(PApplet papp){
+		
+		
+		float smallRadius = 0.01f;
+		radius -=.003;
+		radius = (radius < smallRadius) ? radius : smallRadius;
+		
 	}
 }

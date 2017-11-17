@@ -15,8 +15,6 @@ public class Presence {
 	ArrayList<Orb> orbList = new ArrayList<Orb>();
 	float xPos;
 	float yPos;
-	
-	boolean drawCluster = true;
 
 	PApplet parent;
 	private long lastFused; //keeps track of the time since the presence last fused with another presence
@@ -77,23 +75,15 @@ public class Presence {
 
 		//calc time since lastFused
 		if((System.currentTimeMillis() - lastFused)%200 == 0) {
-			if (jitter < .2) {
+			if (jitter < .1) {
 				jitter += .001f;
 			}
 		}
-		if (drawCluster) {
-			for (Orb orb : orbList) {
-				orb.setLocation(xPos, yPos, jitter);
-				orb.draw();
-			}
+		for(Orb orb : orbList) {
+			orb.setLocation(xPos, yPos, jitter);
+			orb.draw();
 		}
-		else {
-			drawCluster = true;
-		}
-	}
 	
-	public void hideCluster() {
-		drawCluster = false;
 	}
 	
 	
@@ -109,4 +99,3 @@ public class Presence {
 	
 
 }
-

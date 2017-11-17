@@ -75,7 +75,7 @@ public class Orb {
 		
 		switch (orbColor) {
 		case RED:
-			parent.fill(randomColor, 0, 50);
+			parent.fill(randomColor, 5, 190);
 			break;
 		case GREEN:
 			parent.fill(0, randomColor, 50);
