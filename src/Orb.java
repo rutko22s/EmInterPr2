@@ -19,9 +19,17 @@ public class Orb {
 	private boolean decreasing = false;
 	private float pulseRate;
 	private float x;
-	private float y;	
-	float randomizePositionx;
-	float randomizePositiony;
+	private float y;
+	private float bezierYtop;
+	private float bezierYbot;
+	private float bezierXleft;
+	private float bezierXright;
+	private float randomizePositionx;
+	private float randomizePositiony;
+	private float distFromCenter;
+	private float bezierXshift;
+	private float bezierYshift;
+	private double direction; 
 		
 	public Orb(PApplet parent, float x, float y, Pr2Application.ColorSlot orbColor) {
 		this.parent = parent;
@@ -34,10 +42,40 @@ public class Orb {
 
 		randomizePositionx = parent.random(-0.3f, 0.3f);
 		randomizePositiony = parent.random(-0.4f, 0.4f);
+		direction = parent.random(1);
 
 		this.x = x + randomizePositionx;
 		this.y = y + randomizePositiony;
 		
+		distFromCenter = PApplet.dist(x, y, this.x, this.y);
+
+		generateBezier(x,y);
+		
+	}
+	
+	//generate the curve we want to move this orb along
+	public void generateBezier(float x, float y) {
+		//use the distance of the orb from the center of the presence to determine the size of its orbit
+		bezierYtop = y+distFromCenter;
+		bezierYbot = y-distFromCenter;
+		bezierXleft = x-distFromCenter;
+		bezierXright = x+distFromCenter;
+		
+		//randomize the speed and direction in which the orb moves
+		float t = (float) ((parent.frameCount + distFromCenter) / 100.0) % 1;
+		if (direction < .25) {
+			bezierXshift = parent.bezierPoint(x, bezierXleft, bezierXright, x, t);
+			bezierYshift = parent.bezierPoint(bezierYtop, bezierYbot, bezierYbot, bezierYtop, t);
+		} else if (direction < .5) {
+			bezierXshift = parent.bezierPoint(x, bezierXright, bezierXleft, x, t);
+			bezierYshift = parent.bezierPoint(bezierYtop, bezierYbot, bezierYbot, bezierYtop, t);
+		} else if (direction < .75) {
+			bezierXshift = parent.bezierPoint(x, bezierXright, bezierXleft, x, t);
+			bezierYshift = parent.bezierPoint(bezierYbot, bezierYtop, bezierYtop, bezierYbot, t);
+		} else {
+			bezierXshift = parent.bezierPoint(x, bezierXleft, bezierXright, x, t);
+			bezierYshift = parent.bezierPoint(bezierYbot, bezierYtop, bezierYtop, bezierYbot, t);
+		}
 	}
 	
 	public float getRadius() {
@@ -49,9 +87,13 @@ public class Orb {
 	}
 
 	public void setLocation(float newX, float newY, float jitter) {
+		generateBezier(newX,newY);
 		float moveBy = parent.random(-jitter, jitter);
-		x = newX + randomizePositionx + moveBy;
-		y = newY + randomizePositiony + moveBy;
+		//x = newX + randomizePositionx + moveBy;
+		//y = newY + randomizePositiony + moveBy;
+		x = moveBy + bezierXshift + randomizePositionx;
+		y = moveBy + bezierYshift + randomizePositiony;
+		
 	}	
 	
 	public void draw(){
@@ -64,27 +106,23 @@ public class Orb {
 		} else {
 			radius += .001f;
 		}
-		//parent.specular(255,255,255);
-		//parent.specular(color);
+
 		parent.pushMatrix();
 		parent.lights();
-		parent.translate(x, y, 1);
-//		parent.rotate(x);
-//		x += .01f;
+		parent.translate(x, y, -1);
 		parent.noStroke();
 		
 		switch (orbColor) {
-		case RED:
-			parent.fill(randomColor, 5, 190);
-			break;
-		case GREEN:
-			parent.fill(0, randomColor, 50);
-			break;
 		case BLUE:
-			parent.fill(0, 50, randomColor);
+			parent.fill((200*randomColor)%255, 50, randomColor);
+			break;
+//		case RED:
+//			parent.fill(255, 50, (20*randomColor)%255);
+//			break;
+		case GREEN:
+			parent.fill(0, randomColor, 120);
 			break;
 		}
-		//parent.fill(randomColor, 200, 200);
 		
 		parent.sphere(radius);
 		parent.popMatrix();	

@@ -19,8 +19,8 @@ public class Presence {
 	PApplet parent;
 	private long lastFused; //keeps track of the time since the presence last fused with another presence
 	private float jitter = 0;
-	private int randomColor;
 	Pr2Application.ColorSlot orbColor;
+	
 	
 	public Presence(PApplet parent, Body body, Pr2Application.ColorSlot orbColor) {
 		lastFused = System.currentTimeMillis();
@@ -47,6 +47,7 @@ public class Presence {
 		for(int i=0; i<10; i++) {
 			orbList.add(new Orb(this.parent, xPos, yPos, orbColor));
 		}
+		
 	}
 
 	/**
@@ -55,7 +56,6 @@ public class Presence {
 	 * @param body
 	 */
 	public void draw(Body body) {
-		
 		PVector around = body.getJoint(Body.SPINE_BASE);
 		//make several attempts to grab body parts if they are missing
 		if(around == null) {
@@ -69,14 +69,14 @@ public class Presence {
 		}
 		
 		if(around != null) {
-			this.xPos = around.x;
-			this.yPos = around.y;
+			this.xPos = around.x;// + bezierXshift;
+			this.yPos = around.y;// + bezierYshift;
 		}
 
 		//calc time since lastFused
 		if((System.currentTimeMillis() - lastFused)%200 == 0) {
 			if (jitter < .1) {
-				jitter += .001f;
+				jitter += .002f;
 			}
 		}
 		for(Orb orb : orbList) {

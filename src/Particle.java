@@ -79,7 +79,7 @@ public class Particle {
 	    app.imageMode(PApplet.CENTER);
 	    
 	    app.tint(255, lifespan);
-	    app.g.fill(255, 255, 0);
+	    app.g.fill(255, 255, 200);
 	    app.image(img, loc.x, loc.y, IMG_SIZE,IMG_SIZE);
 	 
 	  }
